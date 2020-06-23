@@ -64,12 +64,14 @@
               @click="action.atClick(content)"
             ></button>
           </td>
+
           <td
             v-for="(header, headerIndex) in headers"
             :key="keyPrefix+'-'+index+'-'+headerIndex"
             :headers="header.linkTo"
             v-html="content[header.linkTo]"
           ></td>
+
           <td v-if="actions.length > 0 && actionsAtEnd">
             <button
               v-for="(action, actionIndex) in actions"
@@ -77,12 +79,16 @@
               :class="action.class"
               :style="action.style"
               v-html="action.html"
-              @click="action.atClick(content)"
+              @click="action.atClick(content) || null"
             ></button>
           </td>
         </tr>
-        <tr v-if="!hasContent">
-          <td class="py-2" :colspan="headers.length + (actions.length > 0 ? 1 : 0)">{{noContentMessage}}</td>
+
+        <tr v-show="!hasContent">
+          <td
+            class="py-2"
+            :colspan="headers.length + (actions.length > 0 ? 1 : 0)"
+          >{{noContentMessage}}</td>
         </tr>
       </tbody>
 
@@ -91,7 +97,7 @@
       </tbody>
     </table>
 
-    <p class="flex justify-between" v-if="hasContent">
+    <p class="flex justify-between" v-show="hasContent">
       <small class="block text-left py-2">Showing {{from}} to {{to}} of {{maxIndex}}.</small>
       <Pagination v-model="page" :maxPage="maxPage" />
     </p>
@@ -217,7 +223,8 @@ export default {
         })
         .filter(e =>
           this.searchString
-            ? e.toStr.toLowerCase().includes(this.searchString)
+            ? // Keep only the ones who contain the searchString if the search field is not empty
+              e.toStr.toLowerCase().includes(this.searchString)
             : true
         )
         .sort((a, b) => {

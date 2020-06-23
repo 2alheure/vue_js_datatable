@@ -1,5 +1,16 @@
-# vue_js_datatable
+# Vue JS DataTable
 A DataTable displaying for Vue JS
+
+## Table of contents
+- [Vue JS DataTable](#vue-js-datatable)
+	- [Table of contents](#table-of-contents)
+	- [Usage](#usage)
+		- [Set up](#set-up)
+		- [Basic Usage](#basic-usage)
+		- [Template / Slot usage](#template--slot-usage)
+	- [Props](#props)
+		- [Actions](#actions)
+	- [Full Example](#full-example)
 
 ## Usage
 ### Set up

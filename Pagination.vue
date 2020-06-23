@@ -1,17 +1,22 @@
 <style lang="postcss" scoped>
+nav.pagination {
+  position: relative;
+  z-index: 0;
+  display: inline-flex;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+}
+
 nav.pagination button {
-  @apply -ml-px;
-  @apply relative;
-  @apply inline-flex;
-  @apply items-center;
-  @apply px-4;
-  @apply py-2;
-  @apply border;
-  @apply border-gray-300;
-  @apply bg-white;
-  @apply text-sm;
-  @apply font-medium;
-  @apply text-gray-700;
+  margin-left: -1px;
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  padding: 0.5rem 1rem;
+  border: 1px solid #e2e8f0;
+  background-color: #fff;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #4a5568;
 
   line-height: 1.25rem;
   transition-property: background-color, border-color, color, fill, stroke,
@@ -21,61 +26,65 @@ nav.pagination button {
 }
 
 nav.pagination button:hover {
-  @apply bg-gray-500;
-  @apply text-gray-100;
+  background-color: #a0aec0;
+  color: #f7fafc;
 }
 
 nav.pagination button:focus {
-  @apply z-10;
-  @apply outline-none;
-
+  z-index: 10;
+  outline: 0;
   box-shadow: 0 0 0 1px #4a5568;
 }
 
 nav.pagination button.active {
-  @apply bg-gray-700;
-  @apply text-gray-100;
+  background-color: #4a5568;
+  color: #f7fafc;
 }
 
 nav.pagination button.spec {
-  @apply px-2;
-  @apply text-gray-700;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  color: #4a5568;
 }
 
 nav.pagination button.spec.prev {
-  @apply rounded-l-lg;
+  border-top-left-radius: 0.5rem;
+  border-bottom-left-radius: 0.5rem;
 }
 
 nav button.spec.next {
-  @apply rounded-r-lg;
+  border-top-right-radius: 0.5rem;
+  border-bottom-right-radius: 0.5rem;
 }
 
 nav.pagination button.spec:hover {
-  @apply bg-gray-400;
+  background-color: #cbd5e0;
 }
 
 nav.pagination span {
-  @apply -ml-px;
-  @apply relative;
-  @apply inline-flex;
-  @apply items-center;
-  @apply px-4;
-  @apply py-2;
-  @apply border;
-  @apply border-gray-300;
-  @apply bg-white;
-  @apply text-sm;
-  @apply font-medium;
-  @apply text-gray-700;
-
+  margin-left: -1px;
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  padding: 0.5rem 1rem;
+  border: 1px solid #e2e8f0;
+  background-color: #fff;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #4a5568;
   line-height: 1.25rem;
+}
+
+nav.pagination button svg {
+  height: 1.25rem;
+  width: 1.25rem;
 }
 </style>
 
 <template>
-  <nav class="pagination relative z-0 inline-flex shadow-sm">
+  <nav class="pagination">
     <button type="button" class="spec prev" aria-label="Previous" @click="setPrev">
-      <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+      <svg viewBox="0 0 20 20" fill="currentColor">
         <path
           fill-rule="evenodd"
           d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
@@ -96,7 +105,7 @@ nav.pagination span {
     </template>
 
     <button type="button" class="spec next" aria-label="Next" @click="setNext">
-      <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+      <svg viewBox="0 0 20 20" fill="currentColor">
         <path
           fill-rule="evenodd"
           d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
@@ -147,10 +156,10 @@ export default {
   },
   methods: {
     setPrev() {
-      if (this.page > 1) this.$emit('change', this.page - 1);
+      if (this.page > 1) this.$emit("change", this.page - 1);
     },
     setNext() {
-      if (this.page < this.maxPage) this.$emit('change', this.page + 1);
+      if (this.page < this.maxPage) this.$emit("change", this.page + 1);
     }
   }
 };

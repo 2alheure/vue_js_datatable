@@ -1,5 +1,5 @@
 <style lang="postcss" scoped>
-nav button {
+nav.pagination button {
   @apply -ml-px;
   @apply relative;
   @apply inline-flex;
@@ -20,29 +20,29 @@ nav button {
   transition-duration: 150ms;
 }
 
-nav button:hover {
+nav.pagination button:hover {
   @apply bg-gray-500;
   @apply text-gray-100;
 }
 
-nav button:focus {
+nav.pagination button:focus {
   @apply z-10;
   @apply outline-none;
 
   box-shadow: 0 0 0 1px #4a5568;
 }
 
-nav button.active {
+nav.pagination button.active {
   @apply bg-gray-700;
   @apply text-gray-100;
 }
 
-nav button.spec {
+nav.pagination button.spec {
   @apply px-2;
   @apply text-gray-700;
 }
 
-nav button.spec.prev {
+nav.pagination button.spec.prev {
   @apply rounded-l-lg;
 }
 
@@ -50,11 +50,11 @@ nav button.spec.next {
   @apply rounded-r-lg;
 }
 
-nav button.spec:hover {
+nav.pagination button.spec:hover {
   @apply bg-gray-400;
 }
 
-nav span {
+nav.pagination span {
   @apply -ml-px;
   @apply relative;
   @apply inline-flex;
@@ -73,8 +73,8 @@ nav span {
 </style>
 
 <template>
-  <nav class="relative z-0 inline-flex shadow-sm">
-    <button type="button" class="spec prev" aria-label="Previous">
+  <nav class="pagination relative z-0 inline-flex shadow-sm">
+    <button type="button" class="spec prev" aria-label="Previous" @click="setPrev">
       <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
         <path
           fill-rule="evenodd"
@@ -95,7 +95,7 @@ nav span {
       <span v-else :key="'span-'+index">...</span>
     </template>
 
-    <button type="button" class="spec next" aria-label="Next">
+    <button type="button" class="spec next" aria-label="Next" @click="setNext">
       <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
         <path
           fill-rule="evenodd"
@@ -143,6 +143,14 @@ export default {
           "...",
           this.maxPage
         ];
+    }
+  },
+  methods: {
+    setPrev() {
+      if (this.page > 1) this.$emit('change', this.page - 1);
+    },
+    setNext() {
+      if (this.page < this.maxPage) this.$emit('change', this.page + 1);
     }
   }
 };

@@ -9,6 +9,13 @@
   padding: 0.5rem;
 }
 
+.dt table {
+  width: 100%;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  table-layout: auto;
+}
+
 .dt table thead tr th {
   cursor: pointer;
 }
@@ -20,11 +27,24 @@
 .dt table.stripe tbody tr:nth-of-type(even) {
   background-color: #f6f6f6;
 }
+
+/* For compatibility without Tailwind CSS */
+.dt p.flex small {
+  display: block;
+  text-align: left;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+}
+
+.dt .flex {
+  display: flex;
+  justify-content: space-between;
+}
 </style>
 
 <template>
   <div class="dt">
-    <p class="flex justify-between">
+    <p class="flex">
       <select name="by-page" v-model="byPage">
         <option value="10">10</option>
         <option value="25">25</option>
@@ -35,9 +55,7 @@
       <input type="search" name="search" v-model="searchString" placeholder="Search" />
     </p>
 
-    <table
-      :class="['w-full my-4 table-auto', (hover ? 'hover' : null), (stripe ? 'stripe' : null)]"
-    >
+    <table :class="[(hover ? 'hover' : null), (stripe ? 'stripe' : null)]">
       <thead>
         <tr>
           <th v-if="actions.length > 0 && !actionsAtEnd" v-html="actionsHeader"></th>
@@ -86,7 +104,7 @@
 
         <tr v-show="!hasContent">
           <td
-            class="py-2"
+            style="padding-top:.5rem;padding-bottom:.5rem"
             :colspan="headers.length + (actions.length > 0 ? 1 : 0)"
           >{{noContentMessage}}</td>
         </tr>
@@ -97,8 +115,8 @@
       </tbody>
     </table>
 
-    <p class="flex justify-between" v-show="hasContent">
-      <small class="block text-left py-2">Showing {{from}} to {{to}} of {{maxIndex}}.</small>
+    <p class="flex" v-show="hasContent">
+      <small>Showing {{from}} to {{to}} of {{maxIndex}}.</small>
       <Pagination v-model="page" :maxPage="maxPage" />
     </p>
   </div>

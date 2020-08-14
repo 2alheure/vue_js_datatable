@@ -127,7 +127,7 @@ export default {
     headers: Array,
     content: {
       type: Array,
-      default: []
+      default: () => []
     },
     ascSymbol: {
       type: String,
@@ -191,13 +191,13 @@ export default {
           })
           .map(e => this.initialContent[e.index]);
 
-        this.maxIndex = rc.length;
+        this.setMaxIndex(rc.length);
 
         return rc.slice(this.from - 1, this.to);
-      }
+      } else return null;
     },
     hasContent() {
-      return this.content.length > 0;
+      return this.content != null && this.content.length > 0;
     },
     from() {
       return (this.page - 1) * this.byPage + 1;
@@ -227,19 +227,25 @@ export default {
       }
 
       return '<span class="symbol">' + this.neutralSymbol + "</span>";
+    },
+    setMaxIndex(n) {
+      this.maxIndex = n;
     }
   },
   watch: {
-    page: function(n) {
-      this.$emit("change", this.realContent);
-    },
+    // page: function() {
+    //   this.$emit("change", this.realContent);
+    // },
     byPage: function(newByPage, oldByPage) {
       // Sets the page in order to see the last rows which were printed
       this.page = Math.ceil(((this.page - 1) * oldByPage + 1) / newByPage);
-      this.$emit("change", this.realContent);
+      // this.$emit("change", this.realContent);
     },
-    searchString: function(older, newer) {
+    searchString: function() {
       this.page = 1;
+      // this.$emit("change", this.realContent);
+    },
+    realContent: function() {
       this.$emit("change", this.realContent);
     }
   },

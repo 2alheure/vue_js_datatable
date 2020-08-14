@@ -97,7 +97,7 @@
       </tbody>
     </table>
 
-    <p class="flex" v-show="hasContent">
+    <p class="flex" v-show="hasContent && maxPage > 1">
       <small>Showing {{from}} to {{to}} of {{maxIndex}}.</small>
       <Pagination v-model="page" :maxPage="maxPage" />
     </p>

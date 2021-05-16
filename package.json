@@ -22,6 +22,7 @@
   },
   "homepage": "https://github.com/2alheure/vue_js_datatable#readme",
   "dependencies": {
-    "@2alheure/vue-pagination": "^1.0.1"
+    "@2alheure/vue-pagination": "^1.0.1",
+    "lodash": "^4.17.21"
   }
 }

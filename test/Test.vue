@@ -15,11 +15,11 @@
         v-model="usersCopy"
         style="max-width: 70%; margin: auto"
         :paginationProps="{ textColor: 'red' }"
-        :translation="'fr'"
+        translation="fr"
       >
         <template #thead>
           <tr>
-            <th>Username</th>
+            <th data-order-by="username">Username</th>
             <th>First Name</th>
             <th>Last Name</th>
             <th>Gender</th>
@@ -30,13 +30,15 @@
         </template>
 
         <tr v-for="(user, index) in usersCopy" :key="index">
-          <td>{{ user.username }}</td>
+          <td style="color: blue">{{ user.username }}</td>
           <td>{{ user.first_name }}</td>
           <td>{{ user.last_name }}</td>
-          <td>{{ user.gender }}</td>
-          <td>{{ user.email }}</td>
+          <td style="color: green">{{ user.gender }}</td>
+          <td>
+            <a :href="'mailto:' + user.email">{{ user.email }}</a>
+          </td>
           <td>{{ user.phone_number }}</td>
-          <td>{{ user.location.city }}</td>
+          <td @click="console.log('test')">{{ user.location.city }}</td>
         </tr>
       </DataTable>
     </div>

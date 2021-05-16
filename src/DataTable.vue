@@ -17,7 +17,7 @@
   table-layout: auto;
 }
 
-.dt table thead tr th.orderable {
+.dt table thead [data-order-by] {
   cursor: pointer;
 }
 
@@ -71,16 +71,16 @@
             <template v-for="(header, index) in headers">
               <th
                 v-if="header.linkTo"
+                :data-order-by="header.linkTo"
                 :key="identifier + '-' + header.linkTo + '-header'"
-                :id="header.linkTo + '-header'"
-                class="orderable"
-                v-html="header.html + '&nbsp;' + symbol(header.linkTo)"
-                @click="changeOrderBy(header.linkTo)"
+                :id="identifier + '-' + header.linkTo + '-header'"
+                v-html="header.html"
               ></th>
               <th
                 v-else
                 v-html="header.html"
-                :key="identifier + '-header-' + index"
+                :key="identifier + '-' + index + 'header'"
+                :id="identifier + '-' + index + 'header'"
               ></th>
             </template>
           </tr>
@@ -93,8 +93,10 @@
             <td
               v-for="(header, headerIndex) in headers"
               :key="identifier + '-' + index + '-' + headerIndex"
-              :headers="header.linkTo"
-              v-html="resolve(c, header.linkTo)"
+              :headers="
+                identifier + '-' + (header.linkTo || headerIndex) + '-header'
+              "
+              v-html="_get(c, header.linkTo || headerIndex)"
             ></td>
           </tr>
         </slot>
@@ -120,6 +122,7 @@
 <script>
 import Pagination from "@2alheure/vue-pagination";
 import translations from "./translations.json";
+import { get as _get, random as _random } from "lodash";
 
 export default {
   name: "DataTable",
@@ -134,36 +137,58 @@ export default {
     identifier: {
       // Used to prefix all keys if multiple DataTables in the same page
       type: String,
-      default:
-        String.fromCharCode(Math.floor(Math.random() * 52 + 65)) +
-        Math.floor(Math.random() * 1000),
+      default: function () {
+        var minuscule = _random();
+        if (minuscule)
+          return (
+            String.fromCharCode(_random(97, 122)) +
+            Math.floor(Math.random() * 1000)
+          );
+        return (
+          String.fromCharCode(_random(65, 90)) +
+          Math.floor(Math.random() * 1000)
+        );
+      },
     },
-    headers: Array,
+    headers: {
+      // If given, represents the headers for the table
+      // If not given, calculated in mounted()
+      type: Array,
+      default: () => [],
+    },
     content: {
+      // Represents the data to put in the table
+      // And to calculate on
       type: Array,
       default: () => [],
     },
     ascSymbol: {
+      // The symbol when column is ordered asc
       type: String,
       default: "&#8595;",
     },
     descSymbol: {
+      // The symbol when column is ordered desc
       type: String,
       default: "&#8593;",
     },
     neutralSymbol: {
+      // The symbol when column is not ordered
       type: String,
       default: "&#8597;",
     },
     byPageOptions: {
+      // The possible values for byPage
       type: Array,
       default: () => [10, 25, 50, 100],
       validator: (arr) => arr.join("").match(/\d+/),
     },
-    paginationProps: Object,
-    hover: Boolean,
-    stripe: Boolean,
+    paginationProps: Object, // The props of the Pagination component used
+    hover: Boolean, // Whether this table should have the "hover" style
+    stripe: Boolean, // Whether this table should have the "stripe" style
     translation: {
+      // The language to use
+      // Or the sentences to use
       type: [String, Object],
       default: () => translations.en,
       validator: (value) => {
@@ -189,24 +214,27 @@ export default {
   },
   data() {
     return {
-      initialContent: this.content || [],
-      page: 1,
-      byPage: 10,
-      searchString: null,
-      orderBy: null,
-      asc: true,
-      maxIndex: 0,
+      initialContent: this.content || [], // A copy of the content, on which we can work
+      page: 1, // The actual page
+      byPage: this.byPageOptions[0], // The actual number of rows per page
+      searchString: null, // The actual search string
+      orderBy: null, // The actual column the order is done by
+      asc: true, // Whether the order is ascending or descending
+      maxIndex: 0, // The calculated number of rows to display in the table
     };
   },
   computed: {
+    /**
+     * Calculates the rows which will be printed
+     */
     realContent() {
       if (this.initialContent.length > 0) {
         var rc = this.initialContent
           .map((e, i) => {
-            // Get the orderBy and make an array to walk through with sort
+            // Get the orderBy and make an array to walk through with next functions
             return {
               index: i,
-              value: this.resolve(e, this.orderBy),
+              value: _get(e, this.orderBy),
               toStr: JSON.stringify(e),
             };
           })
@@ -235,18 +263,36 @@ export default {
         return rc.slice(this.from - 1, this.to);
       } else return null;
     },
+    /**
+     * Returns whether the table has content or not
+     */
     hasContent() {
       return this.content != null && this.content.length > 0;
     },
+    /**
+     * The index of the beginning row to print
+     */
     from() {
       return (this.page - 1) * this.byPage + 1;
     },
+    /**
+     * The index of the ending row to print
+     */
     to() {
       return Math.min(this.page * this.byPage, this.initialContent.length);
     },
+    /**
+     * The maximum value for page
+     */
     maxPage() {
       return Math.ceil(this.maxIndex / this.byPage);
     },
+    /**
+     * The translation objet
+     *
+     * Can be the user given one
+     * Or one of the component's default ones
+     */
     translate() {
       if (typeof this.translation == "string")
         return translations[this.translation];
@@ -254,16 +300,15 @@ export default {
     },
   },
   methods: {
-    resolve(object, path, defaultValue) {
-      if (path === undefined || path === null || !path.length) return null;
-      if (object === undefined || object === null) return null;
-
-      defaultValue = defaultValue || null;
-
-      return path
-        .split(".")
-        .reduce((o, p) => (o ? o[p] : defaultValue), object);
-    },
+    /**
+     * Lodash _.get method
+     */
+    _get,
+    /**
+     * Returns a formatted string
+     * Containing all the given arguments
+     * Placed where placeholders stand
+     */
     sprintf(string) {
       if (typeof string == "string" && string.length) {
         var i = arguments.length;
@@ -278,6 +323,9 @@ export default {
 
       return string;
     },
+    /**
+     * Handles the change for orderBy
+     */
     changeOrderBy(field) {
       if (field == null) return;
       if (this.orderBy == field) this.asc = !this.asc;
@@ -287,37 +335,60 @@ export default {
       }
       this.$emit("change", this.realContent);
     },
-    symbol(header) {
-      if (header == this.orderBy) {
-        if (this.asc)
-          return '<span class="symbol">' + this.ascSymbol + "</span>";
-        else return '<span class="symbol">' + this.descSymbol + "</span>";
-      }
-
-      return '<span class="symbol">' + this.neutralSymbol + "</span>";
-    },
+    /**
+     * maxIndex setter
+     */
     setMaxIndex(n) {
       this.maxIndex = n;
     },
+    /**
+     * Handler for the order by event
+     */
+    handleOrderable(event) {
+      document
+        .getElementById(this.identifier)
+        .querySelectorAll("span.symbol")
+        .forEach((el) => {
+          el.innerHTML = this.neutralSymbol;
+        });
+
+      this.changeOrderBy(event.currentTarget.dataset.orderBy);
+
+      document.querySelector(
+        "#" +
+          this.identifier +
+          " [data-order-by=" +
+          event.currentTarget.dataset.orderBy +
+          "] .symbol"
+      ).innerHTML = this.asc ? this.ascSymbol : this.descSymbol;
+    },
   },
   watch: {
-    // page: function() {
-    //   this.$emit("change", this.realContent);
-    // },
     byPage: function (newByPage, oldByPage) {
       // Sets the page in order to see the last rows which were printed
       this.page = Math.ceil(((this.page - 1) * oldByPage + 1) / newByPage);
-      // this.$emit("change", this.realContent);
     },
     searchString: function () {
+      // Sets the page in order to correctly print the search results
       this.page = 1;
-      // this.$emit("change", this.realContent);
     },
     realContent: function () {
+      // Automatic event trigger
       this.$emit("change", this.realContent);
     },
   },
   mounted() {
+    // Handling orderable columns
+    document
+      .getElementById(this.identifier)
+      .querySelectorAll("[data-order-by]")
+      .forEach((el) => {
+        el.addEventListener("click", this.handleOrderable);
+        el.innerHTML +=
+          '<span class="symbol">' + this.neutralSymbol + "</span>";
+      });
+
+    // First calculation of realContent
     this.$emit("change", this.realContent);
   },
 };

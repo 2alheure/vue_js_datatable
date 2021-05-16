@@ -1,0 +1,28 @@
+{
+  "name": "@2alheure/vue-datatable",
+  "version": "1.0.0",
+  "description": "A Vue.js component to display a DataTable. Based upon the jQuery plugin.",
+  "main": "src/Datatable.vue",
+  "scripts": {
+    "test": "vue serve test/Test.vue"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/2alheure/vue_js_datatable.git"
+  },
+  "keywords": [
+    "Vue.js",
+    "table",
+    "datatable"
+  ],
+  "author": "2alheure <contact@2alheure.fr>",
+  "license": "WTFPL",
+  "bugs": {
+    "url": "https://github.com/2alheure/vue_js_datatable/issues"
+  },
+  "homepage": "https://github.com/2alheure/vue_js_datatable#readme",
+  "dependencies": {
+    "@2alheure/vue-pagination": "^1.0.1",
+    "lodash": "^4.17.21"
+  }
+}

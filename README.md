@@ -3,14 +3,15 @@ A DataTable display for Vue JS
 
 ## Table of contents
 - [Vue JS DataTable](#vue-js-datatable)
-	- [Table of contents](#table-of-contents)
-	- [Usage](#usage)
-		- [Set up](#set-up)
-		- [Basic Usage](#basic-usage)
-		- [Template / Slot usage](#template--slot-usage)
-	- [Props](#props)
-		- [About the headers](#about-the-headers)
-	- [Full Example](#full-example)
+  - [Table of contents](#table-of-contents)
+  - [Usage](#usage)
+    - [Set up](#set-up)
+    - [Basic Usage](#basic-usage)
+    - [Template / Slot usage](#template--slot-usage)
+  - [Props](#props)
+    - [About the headers](#about-the-headers)
+  - [Full Example](#full-example)
+    - [Thanks](#thanks)
 
 ## Usage
 ### Set up
@@ -215,3 +216,6 @@ export default {
 };
 </script>
 ```
+
+### Thanks
+Thanks to [@pixelastic](https://github.com/pixelastic/fakeusers/blob/master/data/randomuser.json) for the test users.  

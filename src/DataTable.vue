@@ -221,6 +221,7 @@ export default {
       orderBy: null, // The actual column the order is done by
       asc: true, // Whether the order is ascending or descending
       maxIndex: 0, // The calculated number of rows to display in the table
+      headersLength: 0,
     };
   },
   computed: {
@@ -297,18 +298,6 @@ export default {
       if (typeof this.translation == "string")
         return translations[this.translation];
       else return this.translation;
-    },
-    /**
-     * Returns the number of headers
-     * Or the number of thead > th tags
-     * If headers not provided
-     */
-    headersLength() {
-      return (
-        this.headers.length ||
-        document.getElementById(this.identifier + "-thead").firstElementChild
-          .childElementCount
-      );
     },
   },
   methods: {
@@ -390,6 +379,14 @@ export default {
     },
   },
   mounted() {
+    // Calculating the headers size
+    // In mounted because we use
+    // the document object reference
+    this.headersLength =
+      this.headers.length ||
+      document.getElementById(this.identifier + "-thead").firstElementChild
+        .childElementCount;
+
     // Handling orderable columns
     document
       .getElementById(this.identifier)

@@ -1,5 +1,9 @@
 <template>
   <main>
+    <p>
+      Don't worry about the red or green borders, neither about style in the
+      table. It is just there to make the limits of the table visible.^^'
+    </p>
     <div>
       <h2>With props</h2>
       <DataTable

@@ -1,22 +1,22 @@
 {
     "de": {
-        "noContent": "There is nothing to print.",
-        "showing": "Showing {0} to {1} of {2}",
-        "search": "Search"
+        "noContent": "Nichts zu drucken.",
+        "showing": "Zeigen zeile {0} bis {1} von {2}.",
+        "search": "Suchen"
     },
     "en": {
         "noContent": "There is nothing to print.",
-        "showing": "Showing {0} to {1} of {2}",
+        "showing": "Showing lines {0} to {1} of {2}.",
         "search": "Search"
     },
     "es": {
-        "noContent": "There is nothing to print.",
-        "showing": "Showing {0} to {1} of {2}",
-        "search": "Search"
+        "noContent": "No hay ningunas líneas que mostrar.",
+        "showing": "Líneas {0} a {1} en {2}.",
+        "search": "Buscar"
     },
     "fr": {
         "noContent": "Il n'y a aucune ligne à afficher.",
-        "showing": "Lignes {0} à {1} sur {2}",
+        "showing": "Affichage des lignes {0} à {1} sur {2}.",
         "search": "Rechercher"
     }
 }

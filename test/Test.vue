@@ -11,7 +11,6 @@
     <div>
       <h2>With <code>&lt;slot&gt;</code></h2>
       <DataTable
-        :headers="headers"
         v-model="usersCopy"
         style="max-width: 70%; margin: auto"
         :paginationProps="{ textColor: 'red' }"

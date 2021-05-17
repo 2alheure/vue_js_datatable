@@ -65,7 +65,7 @@
     </form>
 
     <table :class="[hover ? 'hover' : null, stripe ? 'stripe' : null]">
-      <thead>
+      <thead :id="identifier + '-thead'">
         <slot name="thead">
           <tr>
             <template v-for="(header, index) in headers">
@@ -104,7 +104,7 @@
         <tr v-show="!hasContent">
           <td
             style="padding-top: 0.5rem; padding-bottom: 0.5rem"
-            :colspan="headers.length"
+            :colspan="headersLength"
           >
             {{ translate.noContent }}
           </td>
@@ -297,6 +297,18 @@ export default {
       if (typeof this.translation == "string")
         return translations[this.translation];
       else return this.translation;
+    },
+    /**
+     * Returns the number of headers
+     * Or the number of thead > th tags
+     * If headers not provided
+     */
+    headersLength() {
+      return (
+        this.headers.length ||
+        document.getElementById(this.identifier + "-thead").firstElementChild
+          .childElementCount
+      );
     },
   },
   methods: {

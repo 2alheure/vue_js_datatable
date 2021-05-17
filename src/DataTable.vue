@@ -17,16 +17,20 @@
   table-layout: auto;
 }
 
-.dt table thead [data-order-by] {
-  cursor: pointer;
-}
-
 .dt table.hover tbody tr:hover {
   background-color: #f3f3f3;
 }
 
 .dt table.stripe tbody tr:nth-of-type(even) {
   background-color: #f6f6f6;
+}
+
+.dt table thead [data-order-by] {
+  cursor: pointer;
+}
+
+.dt {
+  overflow-y: auto;
 }
 
 .dt form small {
@@ -40,6 +44,8 @@
 .dt form {
   display: flex;
   justify-content: space-between;
+  flex-wrap: wrap;
+  flex-shrink: 0;
 }
 </style>
 

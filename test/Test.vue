@@ -5,14 +5,14 @@
       <DataTable
         :headers="headers"
         v-model="users"
-        style="max-width: 70%; margin: auto"
+        style="max-width: 70%; margin: auto; border: 1px solid red"
       />
     </div>
     <div>
       <h2>With <code>&lt;slot&gt;</code></h2>
       <DataTable
         v-model="usersCopy"
-        style="max-width: 70%; margin: auto"
+        style="max-width: 70%; margin: auto; border: 1px solid purple"
         :paginationProps="{ textColor: 'red' }"
         translation="fr"
       >

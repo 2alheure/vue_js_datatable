@@ -1,10 +1,10 @@
 # Vue.js DataTable
-A DataTable display for Vue.js.
+Vue.js DataTable is a Vue.js component that offers functionnalities for tables, such as ordering, searching or pagination.  
+It has been inspired by the jQuery plugin [DataTables](https://datatables.net/)
 
 ## Table of contents
 - [Vue.js DataTable](#vuejs-datatable)
   - [Table of contents](#table-of-contents)
-  - [What is this component made for](#what-is-this-component-made-for)
   - [Installation](#installation)
     - [Dependencies](#dependencies)
     - [Test](#test)
@@ -15,10 +15,6 @@ A DataTable display for Vue.js.
     - [About the `headers` prop](#about-the-headers-prop)
     - [About translations](#about-translations)
   - [Events](#events)
-
-## What is this component made for
-This component's purpose is to offer a Vue.js alternative for the jQuery plugin [DataTables](https://datatables.net/).  
-It is a plugin that offers functionnalities for tables, such as ordering, search or pagination.
 
 ## Installation
 First run `npm install @2alheure/vue-datatable`. Then you can import the component with `import DataTable from "@2alheure/vue-datatable";`.
@@ -107,11 +103,11 @@ Here is an example, corresponding to the one above:
   </template>
 
   <tr v-for="(user, index) in users" :key="index">
-	<td
+  <td
       v-for="(header, headerIndex) in headers"
       :key="index+'-'+headerIndex"
       v-html="user[header.linkTo]"
-	></td>
+  ></td>
   </tr>
 </DataTable>
 
@@ -172,12 +168,12 @@ It must be an array of objects, each one containing two keys:
 ### About translations
 A translation can be a string, corresponding to one of the following values:
 - `de`: german
-- `en`: english
+- `en`: english (default value)
 - `es`: spanish
 - `fr`: french
 
 You can also provide an object, which will replace the default translation sentences.  
-The translation object looks like following (which is the english one, used by default):
+The translation object looks like following (which is the default one):
 ```json
 {
   "noContent": "There is nothing to print.",
@@ -185,7 +181,7 @@ The translation object looks like following (which is the english one, used by d
   "search": "Search"
 }
 ```
-If you provide an object, it must match this template, respecting the keys, and all keys are required.
+If you provide an object, it must match this template, and all keys are required.
 
 ## Events
 | Name     | Value type | Value                                      | Description                                                   |

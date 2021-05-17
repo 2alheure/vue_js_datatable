@@ -334,6 +334,7 @@ export default {
      * Handles the change for orderBy
      */
     changeOrderBy(field) {
+      this.emit("order-by", field);
       if (field == null) return;
       if (this.orderBy == field) this.asc = !this.asc;
       else {
@@ -372,16 +373,21 @@ export default {
   },
   watch: {
     byPage: function (newByPage, oldByPage) {
+      this.$emit("by-page", newByPage);
       // Sets the page in order to see the last rows which were printed
       this.page = Math.ceil(((this.page - 1) * oldByPage + 1) / newByPage);
     },
-    searchString: function () {
+    searchString: function (search) {
+      this.$emit("search", search);
       // Sets the page in order to correctly print the search results
       this.page = 1;
     },
     realContent: function () {
       // Automatic event trigger
       this.$emit("change", this.realContent);
+    },
+    page: function (page) {
+      this.$emit("page", page);
     },
   },
   mounted() {

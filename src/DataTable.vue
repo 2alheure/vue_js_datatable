@@ -334,7 +334,7 @@ export default {
      * Handles the change for orderBy
      */
     changeOrderBy(field) {
-      this.emit("order-by", field);
+      this.$emit("order-by", field);
       if (field == null) return;
       if (this.orderBy == field) this.asc = !this.asc;
       else {
@@ -365,9 +365,9 @@ export default {
       document.querySelector(
         "#" +
           this.identifier +
-          " [data-order-by=" +
+          ' [data-order-by="' +
           event.currentTarget.dataset.orderBy +
-          "] .symbol"
+          '"] .symbol'
       ).innerHTML = this.asc ? this.ascSymbol : this.descSymbol;
     },
   },

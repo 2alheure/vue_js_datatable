@@ -1,6 +1,6 @@
 {
   "name": "@2alheure/vue-datatable",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "A Vue.js component to display a DataTable. Based upon the jQuery plugin.",
   "main": "src/Datatable.vue",
   "scripts": {

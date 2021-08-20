@@ -95,7 +95,7 @@
 
       <tbody>
         <slot>
-          <tr v-for="(c, index) in content" :key="identifier + '-' + index">
+          <tr v-for="(c, index) in modelValue" :key="identifier + '-' + index">
             <td
               v-for="(header, headerIndex) in headers"
               :key="identifier + '-' + index + '-' + headerIndex"
@@ -136,8 +136,8 @@ export default {
     Pagination,
   },
   model: {
-    event: "change",
-    prop: "content",
+    event: "update:modelValue",
+    prop: "modelValue",
   },
   props: {
     identifier: {
@@ -162,7 +162,7 @@ export default {
       type: Array,
       default: () => [],
     },
-    content: {
+    modelValue: {
       // Represents the data to put in the table
       // And to calculate on
       type: Array,
@@ -220,7 +220,7 @@ export default {
   },
   data() {
     return {
-      initialContent: this.content || [], // A copy of the content, on which we can work
+      initialContent: this.modelValue || [], // A copy of the modelValue, on which we can work
       page: 1, // The actual page
       byPage: this.byPageOptions[0], // The actual number of rows per page
       searchString: null, // The actual search string
@@ -274,7 +274,7 @@ export default {
      * Returns whether the table has content or not
      */
     hasContent() {
-      return this.content != null && this.content.length > 0;
+      return this.modelValue != null && this.modelValue.length > 0;
     },
     /**
      * The index of the beginning row to print
@@ -341,7 +341,7 @@ export default {
         this.orderBy = field;
         this.asc = true;
       }
-      this.$emit("change", this.realContent);
+      this.$emit("update:modelValue", this.realContent);
     },
     /**
      * maxIndex setter
@@ -384,7 +384,7 @@ export default {
     },
     realContent: function () {
       // Automatic event trigger
-      this.$emit("change", this.realContent);
+      this.$emit("update:modelValue", this.realContent);
     },
     page: function (page) {
       this.$emit("page", page);
@@ -410,7 +410,7 @@ export default {
       });
 
     // First calculation of realContent
-    this.$emit("change", this.realContent);
+    this.$emit("update:modelValue", this.realContent);
   },
 };
 </script>

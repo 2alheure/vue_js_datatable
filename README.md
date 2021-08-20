@@ -147,7 +147,7 @@ This will produce the same result as the previous example, except that you won't
 ## Props
 | Name            |         Type         |        Default value        | Description                                                                                 |
 | :-------------- | :------------------: | :-------------------------: | ------------------------------------------------------------------------------------------- |
-| content         |        Array         |            none             | The prop linked to the `v-model` directive (mandatory).                                     |
+| modelValue      |        Array         |            none             | The prop linked to the `v-model` directive (mandatory).                                     |
 | headers         |        Array         |            none             | Refer to the "[About the `headers` prop](#about-the-headers-prop)" section.                 |
 | identifier      |        String        | A randomly generated string | The id of the component. Used by default to distinguish two different DataTable components. |
 | ascSymbol       |        String        |          `&#8595;`          | The symbol when a column is ordered ascendingly.                                            |
@@ -184,10 +184,10 @@ The translation object looks like following (which is the default one):
 If you provide an object, it must match this template, and all keys are required.
 
 ## Events
-| Name     | Value type | Value                                      | Description                                                   |
-| :------- | :--------: | ------------------------------------------ | ------------------------------------------------------------- |
-| change   |   Array    | The new value of the `v-model` linked prop | Emitted each time a change in made in the component           |
-| page     |   Number   | The page number                            | Emitted each time the page changes (including when searching) |
-| by-page  |   Number   | The number of elements by page             | Emitted each time the number of elements by page changes      |
-| order-by |   String   | The column to order by                     | Emitted each time the order changes                           |
-| search   |   String   | The search string                          | Emitted each time a search is made                            |
+| Name              | Value type | Value                                      | Description                                                   |
+| :---------------- | :--------: | ------------------------------------------ | ------------------------------------------------------------- |
+| update:modelValue |   Array    | The new value of the `v-model` linked prop | Emitted each time a change in made in the component           |
+| page              |   Number   | The page number                            | Emitted each time the page changes (including when searching) |
+| by-page           |   Number   | The number of elements by page             | Emitted each time the number of elements by page changes      |
+| order-by          |   String   | The column to order by                     | Emitted each time the order changes                           |
+| search            |   String   | The search string                          | Emitted each time a search is made                            |

@@ -1,6 +1,7 @@
 # Vue.js DataTable
 Vue.js DataTable is a Vue.js component that offers functionnalities for tables, such as ordering, searching or pagination.  
-It has been inspired by the jQuery plugin [DataTables](https://datatables.net/)
+It has been inspired by the jQuery plugin [DataTables](https://datatables.net/).  
+This component is compatible with Vue 3.
 
 ## Table of contents
 - [Vue.js DataTable](#vuejs-datatable)
